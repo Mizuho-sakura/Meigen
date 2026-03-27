@@ -1,0 +1,284 @@
+/* ── リセット & ベース ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --white:      #ffffff;
+      --orange:     #f6b26b;
+      --orange-lt:  #fde8cc;
+      --orange-dk:  #e8953a;
+      --text-main:  #2c2c2c;
+      --text-sub:   #7a7a7a;
+      --shadow:     rgba(246,178,107,.28);
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      font-family: "Noto Sans JP", sans-serif;
+      background: var(--white);
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 2rem 1rem;
+      /* 和紙風の微細ノイズ背景 */
+      background-image:
+        radial-gradient(ellipse 80% 60% at 50% -10%, #fef3e4 0%, transparent 70%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+    }
+
+    /* ── ヘッダー ── */
+    header {
+      text-align: center;
+      margin-bottom: 3rem;
+      animation: fadeUp .8s ease both;
+    }
+
+    .logo-kana {
+      font-family: "Noto Serif JP", serif;
+      font-size: .75rem;
+      letter-spacing: .35em;
+      color: var(--orange);
+      text-transform: uppercase;
+      margin-bottom: .5rem;
+    }
+
+    header h1 {
+      font-family: "Noto Serif JP", serif;
+      font-size: clamp(1.6rem, 5vw, 2.4rem);
+      font-weight: 600;
+      letter-spacing: .08em;
+      color: var(--text-main);
+      position: relative;
+      display: inline-block;
+    }
+
+    /* タイトル下の装飾線 */
+    header h1::after {
+      content: "";
+      display: block;
+      margin: .55rem auto 0;
+      width: 40px;
+      height: 2px;
+      background: var(--orange);
+      border-radius: 2px;
+    }
+
+    .sub-caption {
+      margin-top: .9rem;
+      font-size: .78rem;
+      color: var(--text-sub);
+      letter-spacing: .06em;
+    }
+
+    /* ── カード ── */
+    .card {
+      background: var(--white);
+      border: 1px solid #f0e0cc;
+      border-radius: 20px;
+      box-shadow:
+        0 4px 30px var(--shadow),
+        0 1px 0 #fff inset;
+      padding: clamp(2rem, 6vw, 3.5rem) clamp(1.6rem, 6vw, 3.5rem);
+      width: min(660px, 100%);
+      text-align: center;
+      animation: fadeUp .9s ease both .1s;
+      position: relative;
+    }
+
+    /* 左上 装飾引用符 */
+    .card::before {
+      content: "\201C";
+      font-family: "Noto Serif JP", serif;
+      font-size: 7rem;
+      color: var(--orange-lt);
+      position: absolute;
+      top: -1.5rem;
+      left: 1.4rem;
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    /* ── 名言表示エリア ── */
+    #quoteBox {
+      min-height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #quoteText {
+      font-family: "Noto Serif JP", serif;
+      font-size: clamp(1.05rem, 3.2vw, 1.3rem);
+      font-weight: 400;
+      line-height: 2.1;
+      letter-spacing: .04em;
+      color: var(--text-main);
+      white-space: pre-wrap;
+      word-break: break-all;
+      opacity: 0;
+      transition: opacity .4s ease;
+    }
+
+    #quoteText.visible { opacity: 1; }
+
+    /* タイピングカーソル */
+    #cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1.1em;
+      background: var(--orange);
+      vertical-align: text-bottom;
+      margin-left: 2px;
+      border-radius: 1px;
+      animation: blink .7s step-end infinite;
+    }
+
+    /* ── 文法バッジ ── */
+    #grammarBadge {
+      display: inline-flex;
+      align-items: center;
+      gap: .3rem;
+      margin-top: .9rem;
+      font-size: .7rem;
+      letter-spacing: .06em;
+      font-family: "Noto Sans JP", sans-serif;
+      opacity: 0;
+      transition: opacity .5s ease .6s;
+      min-height: 1.2em;
+    }
+    #grammarBadge.show        { opacity: 1; }
+    #grammarBadge.ok          { color: #4caf7d; }
+    #grammarBadge.warn        { color: #e8953a; }
+
+    /* ── 区切り線 ── */
+    .divider {
+      margin: 1.8rem auto;
+      width: 50px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--orange), transparent);
+    }
+
+    /* ── ボタン群 ── */
+    .btn-group {
+      display: flex;
+      gap: .8rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* 生成ボタン */
+    .btn-generate {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .85rem 2.2rem;
+      background: var(--orange);
+      color: #fff;
+      font-family: "Noto Sans JP", sans-serif;
+      font-size: .95rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 4px 16px var(--shadow);
+      transition: background .22s, transform .18s, box-shadow .22s;
+      outline: none;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-generate::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(255,255,255,.25) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity .3s;
+    }
+    .btn-generate:hover::after { opacity: 1; }
+
+    .btn-generate:hover  { background: var(--orange-dk); transform: translateY(-2px); box-shadow: 0 8px 22px var(--shadow); }
+    .btn-generate:active { transform: translateY(0);      box-shadow: 0 4px 12px var(--shadow); }
+    .btn-generate:disabled { opacity: .55; cursor: not-allowed; transform: none; }
+
+    /* コピーボタン */
+    .btn-copy {
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+      padding: .85rem 1.6rem;
+      background: var(--white);
+      color: var(--orange-dk);
+      font-family: "Noto Sans JP", sans-serif;
+      font-size: .85rem;
+      font-weight: 500;
+      letter-spacing: .06em;
+      border: 1.5px solid var(--orange);
+      border-radius: 50px;
+      cursor: pointer;
+      transition: background .2s, color .2s, transform .18s, opacity .3s;
+      opacity: 0;
+      pointer-events: none;
+      outline: none;
+    }
+
+    .btn-copy.show           { opacity: 1; pointer-events: auto; }
+    .btn-copy:hover          { background: var(--orange-lt); transform: translateY(-2px); }
+    .btn-copy:active         { transform: translateY(0); }
+    .btn-copy.copied         { color: #4caf7d; border-color: #4caf7d; }
+
+    /* コピー完了トースト */
+    #toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(10px);
+      background: #2c2c2c;
+      color: #fff;
+      font-size: .8rem;
+      padding: .6rem 1.4rem;
+      border-radius: 50px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .3s, transform .3s;
+      white-space: nowrap;
+      letter-spacing: .04em;
+    }
+
+    #toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ── フッター ── */
+    footer {
+      margin-top: 2.5rem;
+      font-size: .72rem;
+      color: #c4c4c4;
+      letter-spacing: .04em;
+      animation: fadeUp .9s ease both .3s;
+    }
+
+    /* ── アニメーション定義 ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0; }
+    }
+
+    /* ── レスポンシブ ── */
+    @media (max-width: 480px) {
+      .card::before { font-size: 5rem; top: -1rem; left: .8rem; }
+    }

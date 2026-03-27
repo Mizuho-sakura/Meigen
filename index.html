@@ -1,0 +1,52 @@
+/*-
+███╗   ███╗██╗███████╗██╗   ██╗██╗  ██╗ ██████╗ 
+████╗ ████║██║╚══███╔╝██║   ██║██║  ██║██╔═══██╗
+██╔████╔██║██║  ███╔╝ ██║   ██║███████║██║   ██║
+██║╚██╔╝██║██║ ███╔╝  ██║   ██║██╔══██║██║   ██║
+██║ ╚═╝ ██║██║███████╗╚██████╔╝██║  ██║╚██████╔╝
+╚═╝     ╚═╝╚═╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ */
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>名言ジェネレーター</title>
+  <link rel="shortcut icon" href="assets/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@300;400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" type="text/css">
+</head>
+
+<body>
+  <header>
+    <p class="logo-kana">MEIGEN GENERATOR</p>
+    <h1>名言ジェネレーター</h1>
+    <p class="sub-caption">ボタンを押すたびに、あなただけの言葉が生まれる。</p>
+  </header>
+
+  <main class="card">
+    <div id="quoteBox">
+      <p id="quoteText"><span id="cursor"></span></p>
+    </div>
+
+    <div id="grammarBadge"></div>
+
+    <div class="divider"></div>
+
+    <div class="btn-group">
+      <button class="btn-generate" id="btnGenerate" onclick="generate()">
+        ✦ &nbsp;生成する
+      </button>
+      <button class="btn-copy" id="btnCopy" onclick="copyQuote()">
+        ✦ &nbsp;コピー
+      </button>
+    </div>
+  </main>
+
+  <div id="toast">クリップボードにコピーしました ✔</div>
+
+  <footer>© 名言ジェネレーター — すべての言葉は偶然ではない</footer>
+  <script src="script.js"></script>
+</body>
+</html>
